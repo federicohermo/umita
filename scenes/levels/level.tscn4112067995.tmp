@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://owovvk331kkm"]
+
+[ext_resource type="PackedScene" uid="uid://cae71nl5kite4" path="res://scenes/entities/player/player.tscn" id="1_rcy55"]
+[ext_resource type="PackedScene" uid="uid://d0gqg3m7pwjv1" path="res://scenes/entities/house/casa_videojuegos.tscn" id="2_bovvr"]
+[ext_resource type="PackedScene" uid="uid://dv2vhk5xtoa5r" path="res://graphics/objects/silla/silla.blend" id="3_b2cq8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mj6ry"]
+sky_top_color = Color(0.330623, 0.452506, 0.637186, 1)
+sky_horizon_color = Color(0.643371, 0.666092, 0.703261, 1)
+ground_horizon_color = Color(0.643371, 0.666092, 0.703261, 1)
+
+[sub_resource type="Sky" id="Sky_ua2k0"]
+sky_material = SubResource("ProceduralSkyMaterial_mj6ry")
+
+[sub_resource type="Environment" id="Environment_k6jhq"]
+background_mode = 2
+sky = SubResource("Sky_ua2k0")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rcy55"]
+size = Vector3(150, 0.5, 150)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mj6ry"]
+size = Vector3(10.128, 10, 1.09162)
+
+[node name="Nivel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k6jhq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.898365, -0.380401, 0.219625, -9.83848e-09, 0.5, 0.866025, -0.439249, -0.778007, 0.449183, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Player" parent="Entities" instance=ExtResource("1_rcy55")]
+base_speed = null
+run_speed = null
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+size = Vector3(150, 0.5, 150)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.416399, -0.25, -1.00215)
+shape = SubResource("BoxShape3D_rcy55")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.45133)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/StaticBody3D2"]
+size = Vector3(10, 10, 1)
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Environment/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00523376, 0, 0.0344963)
+shape = SubResource("BoxShape3D_mj6ry")
+
+[node name="casa_videojuegos" parent="Environment" instance=ExtResource("2_bovvr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253672, -12.9027)
+
+[node name="silla" parent="." instance=ExtResource("3_b2cq8")]
+transform = Transform3D(0.365, 0, 0, 0, 0.365, 0, 0, 0, 0.365, 0.810037, 0.081495, 3.01199)

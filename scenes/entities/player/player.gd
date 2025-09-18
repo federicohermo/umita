@@ -9,7 +9,11 @@ extends CharacterBody3D
 
 # Velocidad de carrera (unidades por segundo).
 # Se usa si querés implementar una tecla para correr.
-@export var run_speed := 50.0
+@export var run_speed := 10.0
+
+# Fuerza con la que el jugador empuja a otros objetos.
+# Ajusta este valor para que el empuje se sienta más o menos fuerte.
+@export var push_force := 50.0
 
 # Referencia a la cámara del juego.
 # Se usa para que "adelante" del jugador coincida con hacia donde mira la cámara.
@@ -30,8 +34,15 @@ func _physics_process(delta: float) -> void:
 
 	# Aplica la velocidad calculada al cuerpo y gestiona colisiones automáticamente.
 	move_and_slide()
+	
+	physics_logic()
 
 func complex_movement(delta: float) -> void:
+	if not is_on_floor():
+		# Si no estamos en el suelo, aplicamos gravedad.
+		# Esto permite que el personaje caiga si está en el aire.
+		velocity += get_gravity() * delta
+
 	# 1) Leemos la entrada del teclado (left/right/forward/backward).
 	#    Entradas configuradas en Proyecto -> Configuración del Proyecto -> Mapa de Entrada.
 	# 2) Rotamos esa entrada para que esté alineada con la cámara,
@@ -101,3 +112,29 @@ func set_animation() -> void:
 	# reproducimos "idle" (quieto).
 	else:
 		animated_sprite.play("idle")
+
+# Esta función se llama después de move_and_slide() para manejar interacciones.
+# Aquí, comprobamos si el jugador ha chocado con un RigidBody3D y lo empujamos.
+func physics_logic() -> void:
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+
+		var collider = collision.get_collider()
+		if collider is RigidBody3D:
+			# Para evitar que la fuerza se acumule y cause inestabilidad, solo la aplicamos
+			# si el jugador está activamente intentando moverse hacia el objeto.
+			# Usamos `movement_input` porque representa la intención del jugador, mientras que `velocity`
+			# es modificado por `move_and_slide()` al colisionar, lo que haría que la condición falle.
+			
+			# Obtenemos la dirección de la colisión en el plano horizontal.
+			var collision_normal_2d = Vector2(collision.get_normal().x, collision.get_normal().z)
+			
+			# Si la intención de movimiento del jugador (`movement_input`) es opuesta a la normal de la colisión, aplicamos la fuerza.
+			# El umbral de -0.5 asegura que solo empujemos cuando nos movemos mayormente "contra" el objeto.
+			if movement_input.dot(collision_normal_2d) < -0.5:
+				# Usamos `apply_force` en lugar de `apply_central_force` para que el objeto rote.
+				# `apply_central_force` solo empuja desde el centro, sin causar rotación.
+				# `apply_force` necesita la posición del impacto (relativa al centro del objeto) para calcular el torque.
+				var force_position = collision.get_position() - collider.global_transform.origin
+				collider.apply_force(-collision.get_normal() * push_force, force_position)
+		

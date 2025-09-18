@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cejgjqu5kgvyd"]
+
+[ext_resource type="PackedScene" uid="uid://dv2vhk5xtoa5r" path="res://graphics/objects/silla/silla.blend" id="1_e4yic"]
+
+[node name="silla" instance=ExtResource("1_e4yic")]

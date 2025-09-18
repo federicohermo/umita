@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0gqg3m7pwjv1"]
+
+[ext_resource type="PackedScene" uid="uid://drfh5chf1nvi5" path="res://graphics/objects/casa/casa_videojuegos.blend" id="1_dkvq6"]
+
+[node name="casa_videojuegos" instance=ExtResource("1_dkvq6")]

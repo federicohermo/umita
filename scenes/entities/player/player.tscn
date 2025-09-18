@@ -24,32 +24,32 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_knby6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_18p7g")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_fg2wu")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_7dqom")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_go8vc")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_wghkl")
+"texture": ExtResource("9_vs62q")
 }, {
 "duration": 1.0,
 "texture": ExtResource("8_yk2xr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_vs62q")
+"texture": ExtResource("7_wghkl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_go8vc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7dqom")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fg2wu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_18p7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_knby6")
 }],
 "loop": true,
 "name": &"backwalk",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -86,7 +86,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"sidewalk",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ijei4"]
@@ -102,7 +102,7 @@ billboard = 2
 shaded = true
 alpha_cut = 2
 sprite_frames = SubResource("SpriteFrames_58kc7")
-animation = &"idle"
+animation = &"backwalk"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56987, 0)
