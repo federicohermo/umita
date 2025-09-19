@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cae71nl5kite4"]
+[gd_scene load_steps=34 format=3 uid="uid://cae71nl5kite4"]
 
 [ext_resource type="Script" uid="uid://nkx51vix33hy" path="res://scenes/entities/player/player.gd" id="1_d13fj"]
 [ext_resource type="PackedScene" uid="uid://0x3fy45sdrep" path="res://scenes/entities/player/camera_controller.tscn" id="2_8uwdk"]
@@ -11,14 +11,26 @@
 [ext_resource type="Texture2D" uid="uid://d0fhjkfmxquf" path="res://graphics/characters/vasco/backwalk/15.png" id="8_yk2xr"]
 [ext_resource type="Texture2D" uid="uid://5uet0lent8f8" path="res://graphics/characters/vasco/backwalk/16.png" id="9_vs62q"]
 [ext_resource type="Texture2D" uid="uid://bh01472qx3bqa" path="res://graphics/characters/vasco/idle/final-0032.png" id="10_knby6"]
+[ext_resource type="Texture2D" uid="uid://b7sr70psmqnce" path="res://graphics/characters/vasco/frontwalk/final-0059.png" id="10_qko2e"]
+[ext_resource type="Texture2D" uid="uid://dso3jrpx12kv8" path="res://graphics/characters/vasco/frontwalk/final-0060.png" id="11_6u2ft"]
 [ext_resource type="Texture2D" uid="uid://67mu8mkts851" path="res://graphics/characters/vasco/sidewalk/01.png" id="11_knby6"]
+[ext_resource type="Texture2D" uid="uid://bn0i0fmvaq74" path="res://graphics/characters/vasco/frontwalk/final-0061.png" id="12_7nfft"]
 [ext_resource type="Texture2D" uid="uid://k6s1m7sy3vr5" path="res://graphics/characters/vasco/sidewalk/02.png" id="12_18p7g"]
+[ext_resource type="Texture2D" uid="uid://bgqicc1bjt3ob" path="res://graphics/characters/vasco/frontwalk/final-0062.png" id="13_brjyi"]
 [ext_resource type="Texture2D" uid="uid://bvgfu3knx7u31" path="res://graphics/characters/vasco/sidewalk/03.png" id="13_fg2wu"]
 [ext_resource type="Texture2D" uid="uid://fypk4a4pgk23" path="res://graphics/characters/vasco/sidewalk/04.png" id="14_7dqom"]
+[ext_resource type="Texture2D" uid="uid://dw10k42a5iihl" path="res://graphics/characters/vasco/frontwalk/final-0063.png" id="14_bnv2y"]
+[ext_resource type="Texture2D" uid="uid://wukpo8w44ym3" path="res://graphics/characters/vasco/frontwalk/final-0064.png" id="15_0xxfp"]
 [ext_resource type="Texture2D" uid="uid://c60gkh6hhig8i" path="res://graphics/characters/vasco/sidewalk/05.png" id="15_go8vc"]
+[ext_resource type="Texture2D" uid="uid://c8f48lswi0s0o" path="res://graphics/characters/vasco/frontwalk/final-0065.png" id="16_l2s38"]
 [ext_resource type="Texture2D" uid="uid://35kty4uuqfg3" path="res://graphics/characters/vasco/sidewalk/06.png" id="16_wghkl"]
+[ext_resource type="Texture2D" uid="uid://drmoanayrpyl3" path="res://graphics/characters/vasco/frontwalk/final-0066.png" id="17_11qh6"]
 [ext_resource type="Texture2D" uid="uid://bg2d141ohxi13" path="res://graphics/characters/vasco/sidewalk/07.png" id="17_yk2xr"]
 [ext_resource type="Texture2D" uid="uid://doh75wtr0k70k" path="res://graphics/characters/vasco/sidewalk/08.png" id="18_vs62q"]
+[ext_resource type="AudioStream" uid="uid://cnoabtjjyc15r" path="res://audio/sonido exports juegos/Pasos grava 2.wav" id="28_6u2ft"]
+[ext_resource type="AudioStream" uid="uid://d4elc4i1nuuej" path="res://audio/sonido exports juegos/Pasos grava 3.wav" id="29_7nfft"]
+[ext_resource type="AudioStream" uid="uid://c13kmf3ungh1y" path="res://audio/sonido exports juegos/Pasos hombre .wav" id="30_brjyi"]
+[ext_resource type="AudioStream" uid="uid://cfdql4okl7ny7" path="res://audio/sonido exports juegos/Pasos_grava_4.wav" id="31_bnv2y"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_58kc7"]
 animations = [{
@@ -49,6 +61,35 @@ animations = [{
 }],
 "loop": true,
 "name": &"backwalk",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_qko2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_6u2ft")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_7nfft")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_brjyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_bnv2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_0xxfp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_l2s38")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_11qh6")
+}],
+"loop": true,
+"name": &"frontwalk",
 "speed": 8.0
 }, {
 "frames": [{
@@ -94,6 +135,7 @@ height = 3.42515
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_d13fj")
+step_audio_paths = Array[NodePath]([NodePath("AudioStreamPlayer3D"), NodePath("AudioStreamPlayer3D3"), NodePath("AudioStreamPlayer3D2"), NodePath("AudioStreamPlayer3D3")])
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89447, 0)
@@ -110,3 +152,22 @@ shape = SubResource("CapsuleShape3D_ijei4")
 
 [node name="CameraController" parent="." instance=ExtResource("2_8uwdk")]
 transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.4, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("28_6u2ft")
+bus = &"steps"
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("29_7nfft")
+volume_db = -3.0
+pitch_scale = 2.0
+bus = &"steps"
+
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("30_brjyi")
+pitch_scale = 2.0
+bus = &"steps"
+
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("31_bnv2y")
+bus = &"steps"
