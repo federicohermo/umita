@@ -1,5 +1,15 @@
 extends CharacterBody3D
 
+@export var step_audio_paths: Array[NodePath] = []
+var step_audios: Array[AudioStreamPlayer3D] = []
+var _next_step_index := 0
+
+# Variable para alternar entre los dos audios.
+var _next_step_is_first := true
+
+# Duración (segundos) con la que cada sonido de paso debe sonar.
+@export var step_sound_duration := 1.25
+
 # Referencia al nodo AnimatedSprite3D para cambiar la animación.
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
 
@@ -23,6 +33,13 @@ extends CharacterBody3D
 # Vector2(x, y): x = izquierda/derecha, y = adelante/atrás. Valores entre -1 y 1.
 var movement_input := Vector2.ZERO
 
+func _ready() -> void:
+	# Construye la lista de AudioStreamPlayer3D a partir de los NodePath exportados.
+	for p in step_audio_paths:
+		var n = get_node_or_null(p)
+		if n and n is AudioStreamPlayer3D:
+			step_audios.append(n)
+
 func _physics_process(delta: float) -> void:
 	# Esta función se ejecuta en cada paso físico (no en cada frame de render).
 	# 'delta' es el tiempo en segundos desde la última llamada: se usa para que el
@@ -34,6 +51,8 @@ func _physics_process(delta: float) -> void:
 
 	# Aplica la velocidad calculada al cuerpo y gestiona colisiones automáticamente.
 	move_and_slide()
+	
+	set_sound()
 	
 	physics_logic()
 
@@ -97,6 +116,7 @@ func set_animation() -> void:
 	var pressing_left := Input.is_action_pressed("left")
 	var pressing_right := Input.is_action_pressed("right")
 	var pressing_backward := Input.is_action_pressed("backward")
+	var pressing_forward := Input.is_action_pressed("forward")
 	
 	# Si presionamos izquierda o derecha (pero no ambas), 
 	# reproducimos "sidewalk" (caminar de lado)
@@ -108,6 +128,8 @@ func set_animation() -> void:
 	# Esto tiene prioridad sobre "sidewalk" si se presionan ambas.
 	elif pressing_backward:
 		animated_sprite.play("backwalk")
+	elif pressing_forward:
+		animated_sprite.play("frontwalk")
 	# Si no se presiona ninguna tecla o presionamos izquierda y derecha a la vez, 
 	# reproducimos "idle" (quieto).
 	else:
@@ -138,3 +160,29 @@ func physics_logic() -> void:
 				var force_position = collision.get_position() - collider.global_transform.origin
 				collider.apply_force(-collision.get_normal() * push_force, force_position)
 		
+func set_sound() -> void:
+	# Considerar pequeño umbral para evitar ruido por valores casi cero.
+	var is_moving := velocity.length() > 0.1
+
+	if step_audios.size() == 0:
+		return
+
+	# ¿Alguno de los audios está sonando?
+	var any_playing := false
+	for p in step_audios:
+		if p.playing:
+			any_playing = true
+			break
+
+	if is_moving:
+		# Si ninguno está sonando, reproducimos el siguiente en la lista (rotando).
+		if not any_playing:
+			var idx := _next_step_index % step_audios.size()
+			var player := step_audios[idx]
+			player.play()
+			_next_step_index += 1
+	else:
+		# Parar todos los audios al dejar de moverse.
+		for p in step_audios:
+			if p.playing:
+				p.stop()

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://li6qmol55ok0"
+path="res://.godot/imported/Pasos grava 1.wav-da395e0bfc9a01bcc7d9ab45f0d2487c.sample"
+
+[deps]
+
+source_file="res://audio/sonido exports juegos/Pasos grava 1.wav"
+dest_files=["res://.godot/imported/Pasos grava 1.wav-da395e0bfc9a01bcc7d9ab45f0d2487c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
